@@ -1,9 +1,4 @@
-+++
-title = 'Helloworld'
-date = 2023-12-12T17:50:23-05:00
-draft = true
-+++
-## Introduction
+# Introduction
 
 Because JFuncMachine is a library that let you describe what kind of
 code to compile, it is possible to write a simple "Hello World" program
@@ -36,7 +31,7 @@ member variable from the System class, and then invoking its `println`
 method.  One other thing to note is that the argument to `println` is just
 a string constant.
 
-### Defining a Method
+## Defining a Method
 So, to construct this method with JFuncMachine,
 we define a method like this:
 
@@ -125,7 +120,7 @@ new Expression[] { new StringConstant("Hello World!") }));
 Finally, we pass the argument to the `println` methods by giving it
 a `StringConstant` as an argument.
 
-### Defining a Class
+## Defining a Class
 Now that we have defined the method, we need to define that class that
 contains it:
 
@@ -141,7 +136,7 @@ single method, which is contained in the `main` variable defined above,
 no fields (an empty array of ClassField) and it doesn't implement
 any interfaces (the `new String[0]` at the end).
 
-### Generating Byte Code
+## Generating Byte Code
 There are several ways to generate Java byte code in JFuncMachine, we'll
 start with the most basic, which is to generate a .class file in
 a specified output directory. To do that, we create a `ClassGenerator`
@@ -153,7 +148,7 @@ ClassGenerator generator = new ClassGenerator();
 generator.generate(newClass, "out");
 ```
 
-### The Complete "Hello World" program
+## The Complete "Hello World" program
 
 Here is the complete program including its inputs and try-catch block:
 
@@ -200,7 +195,7 @@ public class HelloWorld {
 }
 ```
 
-### Building and Running the Generated Class
+## Building and Running the Generated Class
 
 If we have a Gradle configuration for our Hello World generator,
 we can run it with:

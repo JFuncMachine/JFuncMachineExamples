@@ -3,7 +3,7 @@ plugins {
     id 'application'
 }
 
-group = 'org.example'
+group = 'org.jfuncmachine'
 version = '1.0-SNAPSHOT'
 
 repositories {
@@ -12,15 +12,27 @@ repositories {
 }
 
 application {
-    mainClass = "org.jfuncmachine.examples.intlang.Compiler"
+    mainClass = "org.jfuncmachine.examples.minilang.Compiler"
 }
 
 dependencies {
-    implementation 'org.jfuncmachine:jfuncmachine:0.1.0'
+    implementation 'org.jfuncmachine:jfuncmachine:1.0.0'
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 
 test {
     useJUnitPlatform()
+}
+
+
+task copyJar(type: Copy) {
+    from jar
+    into "."
+    rename ".*.jar", "intlang.jar"
+}
+
+jar {
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
 }

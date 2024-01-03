@@ -3,7 +3,7 @@ plugins {
     id 'application'
 }
 
-group = 'org.example'
+group = 'org.jfuncmachine'
 version = '1.0-SNAPSHOT'
 
 repositories {
@@ -12,7 +12,7 @@ repositories {
 }
 
 application {
-    mainClass = "HelloWorld"
+    mainClass = "org.jfuncmachine.examples.intlang.Compiler"
 }
 
 dependencies {
@@ -23,4 +23,15 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+task copyJar(type: Copy) {
+    from jar
+    into "."
+    rename ".*.jar", "intlang.jar"
+}
+
+jar {
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
 }

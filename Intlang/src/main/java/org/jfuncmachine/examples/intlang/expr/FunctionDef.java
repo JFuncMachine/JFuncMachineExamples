@@ -1,5 +1,8 @@
 package org.jfuncmachine.examples.intlang.expr;
 
-public record FunctionDef(String name, String[] argNames, IntExpr body) {
+import org.jfuncmachine.sexprlang.translate.ModelItem;
+
+@ModelItem(symbol = "define")
+public record FunctionDef(String name, Param[] params, IntExpr body, String filename, int lineNumber) {
 
 }

@@ -7,8 +7,8 @@ import org.jfuncmachine.sexprlang.translate.ModelItem;
 import java.util.Map;
 
 @ModelItem(isIntConstant = true)
-public record IntConstantExpr(int value) implements IntExpr {
+public record IntConstantExpr(int value, String filename, int lineNumber) implements IntExpr {
     public Expression generate(Map<String, FunctionDef> functions) {
-        return new IntConstant(value);
+        return new IntConstant(value, filename, lineNumber);
     }
 }

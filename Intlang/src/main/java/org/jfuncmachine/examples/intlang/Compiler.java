@@ -33,6 +33,7 @@ public class Compiler {
     public static void main(String[] args) {
         if (args.length < 1) {
             System.out.println("Please supply a filename");
+            return;
         }
 
         try {
@@ -53,7 +54,7 @@ public class Compiler {
             boolean parsedMainExpr = false;
 
             Object[] exprs = SexprToModel.sexprsToModel(itemList,
-                    new ModelMapper("org.jfuncmachine.exampes.intlang.expr"),
+                    new ModelMapper("org.jfuncmachine.examples.intlang.expr"),
                     IntExpr.class);
 
             for (Object obj: exprs) {
@@ -66,9 +67,9 @@ public class Compiler {
 
             for (Object obj: exprs) {
                 if (obj instanceof FunctionDef functionDef) {
-                    Field[] fields = new Field[functionDef.argNames().length];
+                    Field[] fields = new Field[functionDef.params().length];
                     for (int i=0; i < fields.length; i++) {
-                        fields[i] = new Field(functionDef.argNames()[i], SimpleTypes.INT);
+                        fields[i] = new Field(functionDef.params()[i].name(), SimpleTypes.INT);
                     }
                     methods.add(new MethodDef(functionDef.name(), Access.PUBLIC + Access.STATIC,
                             fields, SimpleTypes.INT, functionDef.body().generate(functions)));

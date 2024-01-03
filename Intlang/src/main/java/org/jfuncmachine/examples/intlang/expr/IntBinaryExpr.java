@@ -8,7 +8,8 @@ import org.jfuncmachine.sexprlang.translate.ModelItem;
 import java.util.Map;
 
 @ModelItem(includeStartSymbol = true)
-public record IntBinaryExpr(ExprType exprType, IntExpr left, IntExpr right) implements IntExpr {
+public record IntBinaryExpr(ExprType exprType, IntExpr left, IntExpr right, String filename, int lineNumber)
+        implements IntExpr {
     @ModelItem(isExprStart = true)
     public enum ExprType {
         Add("+"),
@@ -30,7 +31,8 @@ public record IntBinaryExpr(ExprType exprType, IntExpr left, IntExpr right) impl
                     case Mul -> Inlines.IntMul;
                     case Div -> Inlines.IntDiv;
                 },
-                new Expression[] { left.generate(functions), right.generate(functions) });
+                new Expression[] { left.generate(functions), right.generate(functions) },
+                filename, lineNumber);
     }
 
 }

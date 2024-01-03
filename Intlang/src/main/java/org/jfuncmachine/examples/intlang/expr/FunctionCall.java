@@ -19,10 +19,10 @@ public record FunctionCall(String name, IntExpr[] args, String filename, int lin
                     String.format("Function %s does not exist", name));
         }
 
-        if (args.length != funcDef.argNames().length) {
+        if (args.length != funcDef.params().length) {
             throw new IntLangException(filename, lineNumber,
                     String.format("Function %s takes %d arguments, but %d are used here",
-                            name, funcDef.argNames().length, args.length));
+                            name, funcDef.params().length, args.length));
 
         }
         Expression[] genArgs = new Expression[args.length];
@@ -31,6 +31,6 @@ public record FunctionCall(String name, IntExpr[] args, String filename, int lin
         }
         Type[] argTypes = new Type[args.length];
         Arrays.fill(argTypes, SimpleTypes.INT);
-        return new CallStaticMethod(name, argTypes, SimpleTypes.INT, genArgs);
+        return new CallStaticMethod(name, argTypes, SimpleTypes.INT, genArgs, filename, lineNumber);
     }
 }

@@ -33,5 +33,8 @@ task copyJar(type: Copy) {
 
 jar {
     duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    manifest {
+        attributes 'Main-Class':  'org.jfuncmachine.examples.intlang.Compiler'
+    }
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
 }

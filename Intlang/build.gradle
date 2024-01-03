@@ -8,6 +8,9 @@ version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    maven {
+        url "https://s01.oss.sonatype.org/content/repositories/releases"
+    }
     mavenLocal()
 }
 
@@ -15,8 +18,14 @@ application {
     mainClass = "org.jfuncmachine.examples.intlang.Compiler"
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
 dependencies {
-    implementation 'org.jfuncmachine:jfuncmachine:1.0.0'
+    implementation 'org.jfuncmachine:jfuncmachine:1.0.1'
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }

@@ -16,6 +16,7 @@ import org.jfuncmachine.compiler.model.types.ObjectType;
 import org.jfuncmachine.compiler.model.types.SimpleTypes;
 import org.jfuncmachine.examples.intlang.expr.FunctionDef;
 import org.jfuncmachine.examples.intlang.expr.IntExpr;
+import org.jfuncmachine.examples.intlang.expr.PrintExpr;
 import org.jfuncmachine.sexprlang.parser.Parser;
 import org.jfuncmachine.sexprlang.parser.SexprItem;
 import org.jfuncmachine.sexprlang.parser.SexprList;
@@ -69,7 +70,7 @@ public class Compiler {
                 if (obj instanceof FunctionDef functionDef) {
                     Field[] fields = new Field[functionDef.params().length];
                     for (int i=0; i < fields.length; i++) {
-                        fields[i] = new Field(functionDef.params()[i].name(), SimpleTypes.INT);
+                        fields[i] = new Field(functionDef.params()[i], SimpleTypes.INT);
                     }
                     methods.add(new MethodDef(functionDef.name(), Access.PUBLIC + Access.STATIC,
                             fields, SimpleTypes.INT, functionDef.body().generate(functions)));
@@ -87,6 +88,16 @@ public class Compiler {
                                             new ObjectType(PrintStream.class)),
                                             new Expression[] { mainExpr.generate(functions) })));
                     parsedMainExpr = true;
+                } else if (obj instanceof PrintExpr mainExpr) {
+                    if (parsedMainExpr) {
+                        System.out.println("File should only contain one expression for the main method");
+                        return;
+                    }
+                    methods.add(new MethodDef("main", Access.PUBLIC + Access.STATIC,
+                            new Field[]{new Field("args", new ArrayType(SimpleTypes.STRING))},
+                            SimpleTypes.UNIT,
+                            mainExpr.generate(functions)));
+                    parsedMainExpr = true;
                 }
             }
 
@@ -98,6 +109,7 @@ public class Compiler {
 
             ClassGenerator generator = new ClassGenerator(options);
             generator.generate(classDef, "intlangout");
+            System.out.println("Compilation complete.");
 
         } catch (Exception exc) {
             exc.printStackTrace();
